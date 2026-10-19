@@ -44,6 +44,10 @@ Real pool authorization, backend download or extraction, CUDA loading,
 hashrate, share acceptance, the 49/1-minute wallet switch, and all GPU-family
 claims remain untested because this cloud environment has no NVIDIA GPU.
 
+The v0.3.1 wrapper also has a flight-sheet fallback when `config.env` has not
+been generated and redirects startup errors and backend output to the manifest
+log path (or `/tmp/chatgptminer.log` if that path is unavailable).
+
 Hardware validation must cover at least one GPU from each generation, mixed
 multi-GPU selection, insufficient VRAM, forced pool disconnect, invalid share,
 TLS failure, SIGINT/SIGTERM during work, and a sustained mining run. Hashrate,

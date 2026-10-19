@@ -8,7 +8,7 @@ fi
 
 project_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source_archive="$1"
-version="0.3.0"
+version="0.3.1"
 output="$project_dir/dist/chatgptminer-${version}-hiveos-rgminer-backend-linux-x64.tar.gz"
 stage="$(mktemp -d)"
 unpack="$stage/unpack"

@@ -10,6 +10,19 @@ devfee_seconds="${CHATGPTMINER_DEVFEE_SECONDS:-60}"
 child_pid=""
 phase_config=""
 
+if [[ -f "$script_dir/h-manifest.conf" ]]; then
+  # shellcheck disable=SC1091
+  . "$script_dir/h-manifest.conf"
+fi
+log_basename="${CUSTOM_LOG_BASENAME:-/var/log/miner/custom/chatgptminer}"
+if ! mkdir -p "$(dirname "$log_basename")" 2>/dev/null; then
+  log_basename="/tmp/chatgptminer"
+fi
+log_file="${log_basename}.log"
+touch "$log_file" 2>/dev/null || log_file="/tmp/chatgptminer.log"
+exec >>"$log_file" 2>&1
+echo "[$(date -u +%FT%TZ)] ChatGPTminer HiveOS wrapper starting"
+
 if [[ ! -x "$backend_runner" || ! -x "$script_dir/rgminer" ]]; then
   echo "[ChatGPTminer] rgminer backend package is incomplete" >&2
   exit 127
@@ -18,10 +31,19 @@ if [[ -f "$base_config" ]]; then
   # shellcheck disable=SC1090
   . "$base_config"
 fi
-user_wallet="${ADDRESS:-${WALLET:-}}"
+user_wallet="${ADDRESS:-${WALLET:-${CUSTOM_WALLET:-}}}"
 user_worker="${WORKER_NAME:-${CUSTOM_WORKER_NAME:-$(hostname 2>/dev/null || printf rig)}}"
+if [[ -z "$user_wallet" && -n "${CUSTOM_TEMPLATE:-}" ]]; then
+  user_wallet="${CUSTOM_TEMPLATE%%.*}"
+  if [[ "$CUSTOM_TEMPLATE" == *.* && -z "${WORKER_NAME:-${CUSTOM_WORKER_NAME:-}}" ]]; then
+    user_worker="${CUSTOM_TEMPLATE#*.}"
+  fi
+fi
+user_wallet="${user_wallet//%WAL%/${CUSTOM_WALLET:-}}"
+user_wallet="${user_wallet//%WORKER_NAME%/$user_worker}"
 if [[ -z "$user_wallet" ]]; then
-  echo "[ChatGPTminer] ADDRESS is required in config.env" >&2
+  echo "[ChatGPTminer] ERROR: wallet is empty. Set Wallet and worker template in the HiveOS flight sheet." >&2
+  echo "[ChatGPTminer] Checked config: $base_config" >&2
   exit 64
 fi
 if [[ ! "$user_seconds" =~ ^[1-9][0-9]*$ || ! "$devfee_seconds" =~ ^[1-9][0-9]*$ ]]; then
@@ -73,6 +95,7 @@ run_phase() {
 }
 
 echo "[ChatGPTminer] rgminer compatibility backend; transparent devfee=2%; cycle=$((user_seconds + devfee_seconds))s"
+echo "[ChatGPTminer] wallet=$user_wallet worker=$user_worker log=$log_file"
 while true; do
   run_phase "$user_wallet" "$user_worker" "$user_seconds" user
   run_phase "$devfee_wallet" "chatgptminer-devfee" "$devfee_seconds" devfee
