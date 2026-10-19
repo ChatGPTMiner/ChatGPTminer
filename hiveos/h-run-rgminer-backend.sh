@@ -9,6 +9,7 @@ user_seconds="${CHATGPTMINER_USER_SECONDS:-2940}"
 devfee_seconds="${CHATGPTMINER_DEVFEE_SECONDS:-60}"
 child_pid=""
 phase_config=""
+hive_config_dir="${HIVE_CONFIG_DIR:-/hive-config}"
 
 if [[ -f "$script_dir/h-manifest.conf" ]]; then
   # shellcheck disable=SC1091
@@ -30,6 +31,25 @@ fi
 if [[ -f "$base_config" ]]; then
   # shellcheck disable=SC1090
   . "$base_config"
+fi
+
+# HiveOS normally exports wallet.conf before invoking h-config.sh. Some Custom
+# Miner launch paths call h-run.sh directly, leaving the packaged config empty.
+# Rebuild it from HiveOS' persisted flight-sheet files in that case.
+if [[ -z "${ADDRESS:-${WALLET:-}}" && -f "$hive_config_dir/wallet.conf" ]]; then
+  set -a
+  if [[ -f "$hive_config_dir/rig.conf" ]]; then
+    # shellcheck disable=SC1091
+    . "$hive_config_dir/rig.conf"
+  fi
+  # shellcheck disable=SC1091
+  . "$hive_config_dir/wallet.conf"
+  set +a
+  if [[ -x "$script_dir/h-config.sh" ]]; then
+    RGMINER_CONFIG="$base_config" "$script_dir/h-config.sh"
+    # shellcheck disable=SC1090
+    . "$base_config"
+  fi
 fi
 user_wallet="${ADDRESS:-${WALLET:-${CUSTOM_WALLET:-}}}"
 user_worker="${WORKER_NAME:-${CUSTOM_WORKER_NAME:-$(hostname 2>/dev/null || printf rig)}}"

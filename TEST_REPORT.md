@@ -57,6 +57,11 @@ The v0.3.3 package uses `chatgptminer-0.3.3` consistently for the archive base
 name, archive root, manifest name, and HiveOS installation paths. This fixes the
 observed mismatch between `CUSTOM_MINER` and the extracted directory.
 
+The v0.3.4 launcher rebuilds an empty `config.env` from HiveOS `rig.conf` and
+`wallet.conf`. This addresses the confirmed rig behavior where direct
+`h-run.sh` invocation received no `CUSTOM_TEMPLATE`, while sourcing
+`wallet.conf` manually connected to the pool and received a Pearl job.
+
 Hardware validation must cover at least one GPU from each generation, mixed
 multi-GPU selection, insufficient VRAM, forced pool disconnect, invalid share,
 TLS failure, SIGINT/SIGTERM during work, and a sustained mining run. Hashrate,
