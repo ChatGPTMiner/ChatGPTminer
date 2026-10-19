@@ -73,6 +73,19 @@ rig, manual root extraction created both as root-owned 0644 files while the
 Custom Miner directory and hooks run as `user`; this prevented configuration
 regeneration before the backend could start.
 
+The v0.3.7 `h-config.sh` defines the functions required by the installed
+HiveOS `/hive/bin/miner-run` implementation. Earlier packages placed the
+standalone rgminer generator at that path, so `miner_export_params` failed on
+missing `miner_ver`/`miner_api_port` before sourcing `h-run.sh`.
+
+The packaged v0.3.7 hooks were extracted into a clean directory and exercised
+with the recorded HiveOS fixture. `miner_ver` returned `0.3.7`,
+`miner_api_port` returned `9200`, `miner_config_gen` produced the expected
+wallet, worker, and pool settings, and the wrapper ran both the user and 2%
+developer phases through the mock backend. The tar checksum and shell syntax
+checks passed. This validates the HiveOS hook contract without claiming CUDA
+or live-pool validation in the cloud container.
+
 Hardware validation must cover at least one GPU from each generation, mixed
 multi-GPU selection, insufficient VRAM, forced pool disconnect, invalid share,
 TLS failure, SIGINT/SIGTERM during work, and a sustained mining run. Hashrate,

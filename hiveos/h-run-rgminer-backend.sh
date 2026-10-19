@@ -45,8 +45,8 @@ if [[ -z "${ADDRESS:-${WALLET:-}}" && -f "$hive_config_dir/wallet.conf" ]]; then
   # shellcheck disable=SC1091
   . "$hive_config_dir/wallet.conf"
   set +a
-  if [[ -x "$script_dir/h-config.sh" ]]; then
-    RGMINER_CONFIG="$base_config" "$script_dir/h-config.sh"
+  if [[ -x "$script_dir/h-config-rgminer.sh" ]]; then
+    RGMINER_CONFIG="$base_config" "$script_dir/h-config-rgminer.sh"
     # shellcheck disable=SC1090
     . "$base_config"
   fi

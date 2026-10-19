@@ -8,7 +8,7 @@ fi
 
 project_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source_archive="$1"
-version="0.3.6"
+version="0.3.7"
 package_name="chatgptminer-${version}"
 output="$project_dir/dist/${package_name}.tar.gz"
 stage="$(mktemp -d)"
@@ -37,14 +37,17 @@ source_root="$(find "$unpack" -mindepth 1 -maxdepth 1 -type d -print -quit)"
 }
 cp -a "$source_root/." "$package/"
 mv "$package/h-run.sh" "$package/h-run-rgminer.sh"
+mv "$package/h-config.sh" "$package/h-config-rgminer.sh"
 install -m 0755 "$project_dir/hiveos/h-run-rgminer-backend.sh" "$package/h-run.sh"
+install -m 0755 "$project_dir/hiveos/h-config-rgminer-backend.sh" "$package/h-config.sh"
 # HiveOS runs Custom Miner hooks as its unprivileged `user` account. Do not
 # ship mutable state owned by the archive creator; the hooks create these files
 # in the already user-owned /hive/miners/custom directory.
 rm -f "$package/config.env" "$package/rgminer_disabled_gpus"
 chmod 0755 "$package"
 chmod 0755 "$package/rgminer" "$package/h-run-rgminer.sh" \
-  "$package/h-config.sh" "$package/h-stats.sh" "$package/h-driver.sh"
+  "$package/h-config.sh" "$package/h-config-rgminer.sh" \
+  "$package/h-stats.sh" "$package/h-driver.sh"
 cat >"$package/h-manifest.conf" <<EOF
 CUSTOM_NAME=${package_name}
 CUSTOM_VERSION=${version}
