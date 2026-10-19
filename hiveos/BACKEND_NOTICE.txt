@@ -1,0 +1,9 @@
+ChatGPTminer HiveOS transition package
+
+Mining backend: user-supplied SRBMiner 3.7.7 binary.
+Algorithm: pearlhash (GPU only).
+Pool default: stratum+tcp://prl.kryptex.network:7048.
+DevFee wrapper: 2% wall-clock schedule, transparently logged.
+
+SRBMiner may apply its own upstream developer fee in addition to the wrapper.
+The SRBMiner binary is not built from ChatGPTminer source.
