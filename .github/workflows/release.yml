@@ -3,7 +3,7 @@ name: Release HiveOS package
 on:
   push:
     tags:
-      - "v*"
+      - "v*-preview.*"
 
 permissions:
   contents: write

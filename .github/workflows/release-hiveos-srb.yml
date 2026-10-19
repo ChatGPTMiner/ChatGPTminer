@@ -1,0 +1,35 @@
+name: Release HiveOS SRBMiner backend package
+
+on:
+  push:
+    tags:
+      - "v*-hiveos.*"
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check out source and release assets
+        uses: actions/checkout@v4
+
+      - name: Verify release archive
+        working-directory: release-assets
+        run: sha256sum -c chatgptminer-0.2.0-hiveos-srb-backend-linux-x64.tar.gz.sha256
+
+      - name: Build and test source tree
+        run: ./scripts/build.sh
+
+      - name: Create GitHub prerelease
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${GITHUB_REF_NAME}" \
+            release-assets/chatgptminer-0.2.0-hiveos-srb-backend-linux-x64.tar.gz \
+            release-assets/chatgptminer-0.2.0-hiveos-srb-backend-linux-x64.tar.gz.sha256 \
+            --title "ChatGPTminer v0.2.0 — HiveOS real-mining preview" \
+            --notes-file HIVEOS_SRB_BACKEND.md \
+            --prerelease
+
