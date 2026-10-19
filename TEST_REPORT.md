@@ -31,6 +31,19 @@ Date: 2026-10-19. Environment: Linux x64 cloud container.
 | Ada SM 89 | Not run | Requires real RTX 40 rig |
 | Blackwell SM 120 | Not run | Requires real RTX 50 rig and supporting toolkit/driver |
 
+## rgminer 1.1.3b compatibility sample
+
+The operator-supplied archive was inspected without executing its binary. Tar
+paths were safe, the executable was a stripped Linux x86-64 PIE, and the HiveOS
+scripts passed shell syntax checks after integration. Static strings advertise
+separate Ampere and Ada CUDA 12 backends plus a Blackwell CUDA 13 backend; the
+launcher reports a minimum Blackwell driver of 595.58.03. The package contract
+uses algorithm `pearl`, API port 9200, and JSON metrics at `/metrics`.
+
+Real pool authorization, backend download or extraction, CUDA loading,
+hashrate, share acceptance, the 49/1-minute wallet switch, and all GPU-family
+claims remain untested because this cloud environment has no NVIDIA GPU.
+
 Hardware validation must cover at least one GPU from each generation, mixed
 multi-GPU selection, insufficient VRAM, forced pool disconnect, invalid share,
 TLS failure, SIGINT/SIGTERM during work, and a sustained mining run. Hashrate,

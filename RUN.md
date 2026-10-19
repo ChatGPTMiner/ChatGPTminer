@@ -64,3 +64,7 @@ algorithm name. Pearl rates are converted from H/s to kH/s for HiveOS. Until
 the in-process monitoring server and CUDA engine are complete it emits a valid
 zero-value payload.
 
+The rgminer compatibility package uses that backend's native contract instead:
+algorithm `pearl`, API port `9200`, `/metrics`, and `--stratum` endpoints. See
+`HIVEOS_RGMINER_BACKEND.md` for packaging and HiveOS configuration.
+
