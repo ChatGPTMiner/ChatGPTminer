@@ -18,6 +18,7 @@ Date: 2026-10-19. Environment: Linux x64 cloud container.
 | C++ compilation | Passed | GCC 14.2.0, Release build, no compiler warnings |
 | Core unit checks | Passed | CTest: 1/1 test, 9 assertions |
 | Native CUDA library loading | Not run | No licensed Pearl library and no CUDA toolkit |
+| Independent CUDA test kernel | Source complete, not compiled | DP4A GEMM/target C ABI added; environment has no `nvcc` or GPU |
 | NVIDIA GPU discovery | Partially passed | CLI ran safely and reported 0 devices; no hardware validation |
 | Pearl algorithm vectors | Blocked | No licensed implementation or independent specification/vectors |
 | Kryptex pool connection | Environment blocked | Endpoint identified as `prl.kryptex.network:7048`; runtime DNS policy rejected lookup |

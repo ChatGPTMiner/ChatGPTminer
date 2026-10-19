@@ -15,7 +15,7 @@ are available.
 |---|---|---|
 | Miner Core | Lifecycle, cancellation, worker ownership, graceful shutdown | CLI shell present; mining loop pending |
 | GPU Manager | Enumerate devices, memory and compute capability; select devices | Implemented with `libcuda.so.1` |
-| CUDA Engine | Own contexts, streams, buffers, Pearl GEMM/BLAKE3 kernels | Interface only |
+| CUDA Engine | Own contexts, streams, buffers, Pearl GEMM/BLAKE3 kernels | Independent DP4A test kernel added; consensus kernel pending |
 | Pool Manager | Stratum connection, jobs, share submission and reconnect policy | TCP client implemented; Pearl job decoding pending |
 | Share Validator | CPU/GPU cross-check before submission | Interface only |
 | Monitoring | Logs, per-GPU throughput, accepted/rejected counters, HiveOS JSON | SRBMiner-compatible API schema and HiveOS parser defined; in-process API pending |

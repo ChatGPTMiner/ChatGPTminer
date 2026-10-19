@@ -28,3 +28,20 @@ endif()
 
 install(TARGETS chatgptminer RUNTIME DESTINATION bin)
 
+option(PEARL_BUILD_CUDA_TEST_KERNEL "Build the standalone CUDA test kernel" OFF)
+if(PEARL_BUILD_CUDA_TEST_KERNEL)
+  enable_language(CUDA)
+  set(CMAKE_CUDA_STANDARD 20)
+  set(CMAKE_CUDA_STANDARD_REQUIRED ON)
+  if(NOT DEFINED CMAKE_CUDA_ARCHITECTURES)
+    set(CMAKE_CUDA_ARCHITECTURES 86 89)
+  endif()
+  add_library(pearl_test_cuda SHARED native/pearl_test_kernel.cu)
+  target_include_directories(pearl_test_cuda PUBLIC include)
+  set_target_properties(pearl_test_cuda PROPERTIES
+      OUTPUT_NAME pearl_test_cuda
+      CUDA_SEPARABLE_COMPILATION ON
+      POSITION_INDEPENDENT_CODE ON)
+  install(TARGETS pearl_test_cuda LIBRARY DESTINATION lib)
+endif()
+

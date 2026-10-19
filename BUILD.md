@@ -16,6 +16,25 @@ chmod +x scripts/build.sh hiveos/*.sh
 The binary is installed as `out/bin/chatgptminer`. The script configures a
 Release build, compiles, runs CTest, and installs the executable.
 
+## CUDA test kernel
+
+The repository contains an independent, non-consensus CUDA test backend. It
+performs signed int8 GEMM with `dp4a`, builds a deterministic test transcript,
+checks a 64-bit target, and atomically reports the first winning tile through a
+C ABI. Build it on a CUDA machine with:
+
+```bash
+cmake -S . -B build-cuda \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DPEARL_BUILD_CUDA_TEST_KERNEL=ON \
+  -DCMAKE_CUDA_ARCHITECTURES="86;89"
+cmake --build build-cuda --parallel
+```
+
+For a toolkit that supports consumer Blackwell, add architecture `120` (or the
+toolkit-specific `120a` spelling). The test digest is deliberately not the
+Pearl BLAKE3/Merkle consensus digest and must never be submitted to a pool.
+
 Equivalent manual commands:
 
 ```bash
