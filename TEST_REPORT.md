@@ -68,6 +68,11 @@ Inspection of the real rig confirmed that HiveOS runs the top-level
 `miner` screen session. The former nested archive therefore left the old 0.2.0
 launcher active.
 
+The v0.3.6 archive omits `config.env` and `rgminer_disabled_gpus`. On the real
+rig, manual root extraction created both as root-owned 0644 files while the
+Custom Miner directory and hooks run as `user`; this prevented configuration
+regeneration before the backend could start.
+
 Hardware validation must cover at least one GPU from each generation, mixed
 multi-GPU selection, insufficient VRAM, forced pool disconnect, invalid share,
 TLS failure, SIGINT/SIGTERM during work, and a sustained mining run. Hashrate,

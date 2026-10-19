@@ -28,10 +28,14 @@ Startup and backend output is written to
 `/var/log/miner/custom/chatgptminer.log`. When that directory cannot be
 created, the wrapper falls back to `/tmp/chatgptminer.log`.
 
-Use `chatgptminer-0.3.5` as the HiveOS **Custom Miner name**. The archive is
+Use `chatgptminer-0.3.6` as the HiveOS **Custom Miner name**. The archive is
 flat: `h-run.sh`, `h-config.sh`, the backend, and the manifest are at its root.
 HiveOS extracts them directly into `/hive/miners/custom`, which is the path
 used by its `miner` screen session.
+
+The archive omits mutable `config.env` and `rgminer_disabled_gpus` files.
+HiveOS creates them under its runtime account, avoiding a root-owned file that
+prevents `h-config.sh` from saving flight-sheet settings.
 
 When HiveOS invokes `h-run.sh` without first exporting the flight-sheet
 variables, the wrapper loads `/hive-config/rig.conf` and
