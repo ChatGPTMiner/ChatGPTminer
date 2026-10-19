@@ -8,7 +8,7 @@ fi
 
 project_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source_archive="$1"
-version="0.3.1"
+version="0.3.2"
 output="$project_dir/dist/chatgptminer-${version}-hiveos-rgminer-backend-linux-x64.tar.gz"
 stage="$(mktemp -d)"
 unpack="$stage/unpack"
@@ -37,6 +37,7 @@ source_root="$(find "$unpack" -mindepth 1 -maxdepth 1 -type d -print -quit)"
 cp -a "$source_root/." "$package/"
 mv "$package/h-run.sh" "$package/h-run-rgminer.sh"
 install -m 0755 "$project_dir/hiveos/h-run-rgminer-backend.sh" "$package/h-run.sh"
+chmod 0755 "$package"
 chmod 0755 "$package/rgminer" "$package/h-run-rgminer.sh" \
   "$package/h-config.sh" "$package/h-stats.sh" "$package/h-driver.sh"
 cat >"$package/h-manifest.conf" <<EOF
@@ -58,6 +59,8 @@ developer). The rgminer backend may apply its own upstream fee or terms.
 This package does not represent the rgminer binary as ChatGPTminer source code.
 EOF
 
-tar -C "$stage" -czf "$output" "$(basename "$package")"
+find "$package" -type d -exec chmod 0755 {} +
+find "$package" -type f ! -perm /111 -exec chmod 0644 {} +
+tar --owner=0 --group=0 --numeric-owner -C "$stage" -czf "$output" "$(basename "$package")"
 sha256sum "$output" >"$output.sha256"
 printf '%s\n' "$output"

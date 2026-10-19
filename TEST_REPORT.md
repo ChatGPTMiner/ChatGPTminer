@@ -48,6 +48,11 @@ The v0.3.1 wrapper also has a flight-sheet fallback when `config.env` has not
 been generated and redirects startup errors and backend output to the manifest
 log path (or `/tmp/chatgptminer.log` if that path is unavailable).
 
+The v0.3.2 archive normalizes its root directory to mode 0755 and records
+`root:root` numeric ownership, matching the supplied working HiveOS archive.
+The previous 0700 package root could prevent the HiveOS runtime user from
+reaching `h-run.sh`, which also explained the absence of any startup log.
+
 Hardware validation must cover at least one GPU from each generation, mixed
 multi-GPU selection, insufficient VRAM, forced pool disconnect, invalid share,
 TLS failure, SIGINT/SIGTERM during work, and a sustained mining run. Hashrate,
