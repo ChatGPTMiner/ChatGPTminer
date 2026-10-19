@@ -53,7 +53,14 @@ by `selftest` and documented in `ARCHITECTURE.md`.
 
 For HiveOS, place the release directory so that `hiveos/` and `out/` remain
 siblings. Set the wallet/worker template and the confirmed Kryptex endpoint in
-the flight sheet. `h-run.sh` maps these values and launches the native binary;
-`h-stats.sh` currently emits zero values because mining statistics do not yet
-exist.
+the flight sheet. The packaged Custom Miner uses algorithm name `pearlhash`,
+API port `21373`, writes its log to `/var/log/miner/custom/chatgptminer.log`,
+and prevents duplicate launches. Optional `PRL_GPU_INDICES`, `PRL_LOG_LEVEL`,
+`PRL_API_PORT`, and `PRL_POOL_TLS` overrides are accepted in Custom user config.
+
+`h-stats.sh` consumes the same high-level API shape used by SRBMiner: GPU
+hashrates, accepted/rejected shares, PCI bus IDs, uptime, miner version, and
+algorithm name. Pearl rates are converted from H/s to kH/s for HiveOS. Until
+the in-process monitoring server and CUDA engine are complete it emits a valid
+zero-value payload.
 

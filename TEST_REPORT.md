@@ -25,7 +25,7 @@ Date: 2026-10-19. Environment: Linux x64 cloud container.
 | Start/stop and CUDA cleanup | Blocked | CUDA engine pending |
 | Configuration failure path | Passed | Valid config reaches engine gate and exits 3 with explicit error |
 | HiveOS shell syntax/config mapping | Passed | `bash -n`; wallet, worker, host and port assertions passed |
-| HiveOS statistics adapter | Partial | Valid zero-value JSON emitted; live statistics await engine |
+| HiveOS statistics adapter | Passed for contract | Mock API: two GPUs, kH/s conversion, shares, uptime and bus IDs verified |
 | Ampere SM 86 | Not run | Requires real RTX 30 rig |
 | Ada SM 89 | Not run | Requires real RTX 40 rig |
 | Blackwell SM 120 | Not run | Requires real RTX 50 rig and supporting toolkit/driver |

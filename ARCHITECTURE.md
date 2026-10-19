@@ -18,7 +18,7 @@ are available.
 | CUDA Engine | Own contexts, streams, buffers, Pearl GEMM/BLAKE3 kernels | Interface only |
 | Pool Manager | Stratum connection, jobs, share submission and reconnect policy | TCP client implemented; Pearl job decoding pending |
 | Share Validator | CPU/GPU cross-check before submission | Interface only |
-| Monitoring | Logs, per-GPU throughput, accepted/rejected counters, HiveOS JSON | Output contract planned; zero HiveOS payload only |
+| Monitoring | Logs, per-GPU throughput, accepted/rejected counters, HiveOS JSON | SRBMiner-compatible API schema and HiveOS parser defined; in-process API pending |
 | Auto Tuner | Select family-specific kernel parameters | Interface only |
 | DevFee Manager | Transparent 2% schedule and developer wallet | Schedule implemented; pool switching pending |
 | HiveOS Integration | Translate flight-sheet values and launch/stat scripts | Initial scripts present |
