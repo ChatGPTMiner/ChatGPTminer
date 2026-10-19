@@ -8,12 +8,12 @@ fi
 
 project_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source_archive="$1"
-version="0.3.4"
+version="0.3.5"
 package_name="chatgptminer-${version}"
 output="$project_dir/dist/${package_name}.tar.gz"
 stage="$(mktemp -d)"
 unpack="$stage/unpack"
-package="$stage/$package_name"
+package="$stage/package"
 trap 'rm -rf "$stage"' EXIT
 
 [[ -f "$source_archive" ]] || { echo "Archive not found: $source_archive" >&2; exit 1; }
@@ -44,8 +44,8 @@ chmod 0755 "$package/rgminer" "$package/h-run-rgminer.sh" \
 cat >"$package/h-manifest.conf" <<EOF
 CUSTOM_NAME=${package_name}
 CUSTOM_VERSION=${version}
-CUSTOM_CONFIG_FILENAME=/hive/miners/custom/${package_name}/config.env
-CUSTOM_LOG_BASENAME=/var/log/miner/${package_name}/rgminer
+CUSTOM_CONFIG_FILENAME=/hive/miners/custom/config.env
+CUSTOM_LOG_BASENAME=/var/log/miner/custom/chatgptminer
 CUSTOM_API_PORT=9200
 EOF
 cat >"$package/CHATGPTMINER_BACKEND_NOTICE.txt" <<EOF
@@ -62,6 +62,6 @@ EOF
 
 find "$package" -type d -exec chmod 0755 {} +
 find "$package" -type f ! -perm /111 -exec chmod 0644 {} +
-tar --owner=0 --group=0 --numeric-owner -C "$stage" -czf "$output" "$(basename "$package")"
+tar --owner=0 --group=0 --numeric-owner -C "$package" -czf "$output" .
 sha256sum "$output" >"$output.sha256"
 printf '%s\n' "$output"

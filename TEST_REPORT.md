@@ -62,6 +62,12 @@ The v0.3.4 launcher rebuilds an empty `config.env` from HiveOS `rig.conf` and
 `h-run.sh` invocation received no `CUSTOM_TEMPLATE`, while sourcing
 `wallet.conf` manually connected to the pool and received a Pearl job.
 
+The v0.3.5 archive is flat and targets `/hive/miners/custom/config.env`.
+Inspection of the real rig confirmed that HiveOS runs the top-level
+`/hive/miners/custom/h-run.sh`; versioned subdirectories are not used by its
+`miner` screen session. The former nested archive therefore left the old 0.2.0
+launcher active.
+
 Hardware validation must cover at least one GPU from each generation, mixed
 multi-GPU selection, insufficient VRAM, forced pool disconnect, invalid share,
 TLS failure, SIGINT/SIGTERM during work, and a sustained mining run. Hashrate,
