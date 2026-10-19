@@ -24,10 +24,10 @@ MinerConfig MinerConfig::from_environment() {
     MinerConfig c;
     c.wallet = env_or("PRL_WALLET", "AKOYA_POOL_WALLET");
     c.worker = env_or("PRL_WORKER", "AKOYA_POOL_WORKER", "default");
-    c.pool_host = env_or("PRL_POOL_HOST", "AKOYA_POOL_HOST");
+    c.pool_host = env_or("PRL_POOL_HOST", "AKOYA_POOL_HOST", "prl.kryptex.network");
     c.log_level = env_or("PRL_LOG_LEVEL", "AKOYA_LOG_LEVEL", "info");
-    c.tls = bool_env("PRL_POOL_TLS", "AKOYA_POOL_TLS", true);
-    const auto port = env_or("PRL_POOL_PORT", "AKOYA_POOL_PORT", c.tls ? "443" : "0");
+    c.tls = bool_env("PRL_POOL_TLS", "AKOYA_POOL_TLS", false);
+    const auto port = env_or("PRL_POOL_PORT", "AKOYA_POOL_PORT", "7048");
     c.pool_port = std::stoi(port);
 
     const auto gpus = env_or("PRL_GPU_INDICES", "AKOYA_GPU_INDICES", "all");

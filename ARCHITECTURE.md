@@ -16,7 +16,7 @@ are available.
 | Miner Core | Lifecycle, cancellation, worker ownership, graceful shutdown | CLI shell present; mining loop pending |
 | GPU Manager | Enumerate devices, memory and compute capability; select devices | Implemented with `libcuda.so.1` |
 | CUDA Engine | Own contexts, streams, buffers, Pearl GEMM/BLAKE3 kernels | Interface only |
-| Pool Manager | TLS connection, jobs, share submission and reconnect policy | Interface only |
+| Pool Manager | Stratum connection, jobs, share submission and reconnect policy | TCP client implemented; Pearl job decoding pending |
 | Share Validator | CPU/GPU cross-check before submission | Interface only |
 | Monitoring | Logs, per-GPU throughput, accepted/rejected counters, HiveOS JSON | Output contract planned; zero HiveOS payload only |
 | Auto Tuner | Select family-specific kernel parameters | Interface only |
@@ -56,10 +56,11 @@ transcripts with BLAKE3, compares against the live target, and returns winning
 coordinates and proof material. Host code builds Merkle proofs, rechecks the
 claimed hash against the current target, and submits the share.
 
-The reference pool transport is bidirectional gRPC over HTTP/2 with TLS,
-session identity, server-pushed jobs, heartbeat/ping traffic, share results,
-and reconnect hints. Kryptex compatibility has not been established: an exact
-Kryptex PRL endpoint and protocol documentation or capture are required.
+Akoya's reference pool transport is bidirectional gRPC over HTTP/2. Kryptex
+uses Stratum TCP at `prl.kryptex.network:7048`, so ChatGPTminer has a separate
+client using the standard subscribe/authorize/notify/submit method family.
+The exact Pearl `mining.notify` and `mining.submit` parameter layouts still
+need to be captured from the live endpoint before the decoder can be frozen.
 
 ## DevFee behavior
 

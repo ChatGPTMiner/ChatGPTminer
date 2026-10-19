@@ -1,5 +1,6 @@
 #include "pearl/gpu_manager.hpp"
 #include "pearl/interfaces.hpp"
+#include "pearl/stratum_client.hpp"
 #include <chrono>
 #include <iostream>
 
@@ -16,7 +17,10 @@ int main() {
     expect(fee->percentage() == 2.0, "developer fee percent");
     expect(fee->developer_window(std::chrono::seconds(0)), "developer window start");
     expect(!fee->developer_window(std::chrono::seconds(72)), "developer window end");
-    if (!failures) std::cout << "6 checks passed\n";
+    expect(pearl::StratumClient::classify_line("{\"method\":\"mining.notify\",\"params\":[]}").kind == pearl::StratumEvent::Kind::Job, "stratum job");
+    expect(pearl::StratumClient::classify_line("{\"id\":2,\"result\":true,\"error\":null}").kind == pearl::StratumEvent::Kind::Authorized, "stratum authorization");
+    expect(pearl::StratumClient::classify_line("{\"id\":4,\"result\":false,\"error\":[23,\"low difficulty\"]}").kind == pearl::StratumEvent::Kind::Rejected, "stratum reject");
+    if (!failures) std::cout << "9 checks passed\n";
     return failures ? 1 : 0;
 }
 

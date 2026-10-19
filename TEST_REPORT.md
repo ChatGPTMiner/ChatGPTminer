@@ -16,12 +16,12 @@ Date: 2026-10-19. Environment: Linux x64 cloud container.
 |---|---|---|
 | Source provenance | Passed | Akoya and CUTLASS commits recorded in `LICENSE_AUDIT.md` |
 | C++ compilation | Passed | GCC 14.2.0, Release build, no compiler warnings |
-| Core unit checks | Passed | CTest: 1/1 test, 6 assertions |
+| Core unit checks | Passed | CTest: 1/1 test, 9 assertions |
 | Native CUDA library loading | Not run | No licensed Pearl library and no CUDA toolkit |
 | NVIDIA GPU discovery | Partially passed | CLI ran safely and reported 0 devices; no hardware validation |
 | Pearl algorithm vectors | Blocked | No licensed implementation or independent specification/vectors |
-| Kryptex pool connection | Blocked | Exact PRL endpoint/protocol not supplied or established |
-| Pool error/reconnect | Blocked | Pool client pending |
+| Kryptex pool connection | Environment blocked | Endpoint identified as `prl.kryptex.network:7048`; runtime DNS policy rejected lookup |
+| Pool error/reconnect | Partial pass | Client retried DNS failures with backoff; live handshake awaits published network setting |
 | Start/stop and CUDA cleanup | Blocked | CUDA engine pending |
 | Configuration failure path | Passed | Valid config reaches engine gate and exits 3 with explicit error |
 | HiveOS shell syntax/config mapping | Passed | `bash -n`; wallet, worker, host and port assertions passed |
