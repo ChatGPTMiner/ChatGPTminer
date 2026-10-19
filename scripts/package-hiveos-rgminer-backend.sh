@@ -70,5 +70,5 @@ EOF
 find "$package" -type d -exec chmod 0755 {} +
 find "$package" -type f ! -perm /111 -exec chmod 0644 {} +
 tar --owner=0 --group=0 --numeric-owner -C "$package" -czf "$output" .
-sha256sum "$output" >"$output.sha256"
+(cd "$(dirname "$output")" && sha256sum "$(basename "$output")") >"$output.sha256"
 printf '%s\n' "$output"
