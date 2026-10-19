@@ -25,5 +25,9 @@ driver 595.58.03 or newer for Blackwell. These claims were observed by static
 inspection and still require testing on actual RTX 30, 40, and 50 hardware.
 
 Startup and backend output is written to
-`/var/log/miner/chatgptminer-0.3.2/rgminer.log`. When that directory cannot be
+`/var/log/miner/chatgptminer-0.3.3/rgminer.log`. When that directory cannot be
 created, the wrapper falls back to `/tmp/chatgptminer.log`.
+
+Use `chatgptminer-0.3.3` as the HiveOS **Custom Miner name**. The release file,
+the directory inside the archive, and `CUSTOM_NAME` deliberately use this same
+value so HiveOS resolves `h-run.sh` without a path mismatch.

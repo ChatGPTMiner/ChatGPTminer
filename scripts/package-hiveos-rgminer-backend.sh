@@ -8,11 +8,12 @@ fi
 
 project_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source_archive="$1"
-version="0.3.2"
-output="$project_dir/dist/chatgptminer-${version}-hiveos-rgminer-backend-linux-x64.tar.gz"
+version="0.3.3"
+package_name="chatgptminer-${version}"
+output="$project_dir/dist/${package_name}.tar.gz"
 stage="$(mktemp -d)"
 unpack="$stage/unpack"
-package="$stage/chatgptminer-${version}"
+package="$stage/$package_name"
 trap 'rm -rf "$stage"' EXIT
 
 [[ -f "$source_archive" ]] || { echo "Archive not found: $source_archive" >&2; exit 1; }
@@ -41,10 +42,10 @@ chmod 0755 "$package"
 chmod 0755 "$package/rgminer" "$package/h-run-rgminer.sh" \
   "$package/h-config.sh" "$package/h-stats.sh" "$package/h-driver.sh"
 cat >"$package/h-manifest.conf" <<EOF
-CUSTOM_NAME=chatgptminer-${version}
+CUSTOM_NAME=${package_name}
 CUSTOM_VERSION=${version}
-CUSTOM_CONFIG_FILENAME=/hive/miners/custom/chatgptminer-${version}/config.env
-CUSTOM_LOG_BASENAME=/var/log/miner/chatgptminer-${version}/rgminer
+CUSTOM_CONFIG_FILENAME=/hive/miners/custom/${package_name}/config.env
+CUSTOM_LOG_BASENAME=/var/log/miner/${package_name}/rgminer
 CUSTOM_API_PORT=9200
 EOF
 cat >"$package/CHATGPTMINER_BACKEND_NOTICE.txt" <<EOF

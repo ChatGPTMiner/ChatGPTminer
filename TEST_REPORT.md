@@ -53,6 +53,10 @@ The v0.3.2 archive normalizes its root directory to mode 0755 and records
 The previous 0700 package root could prevent the HiveOS runtime user from
 reaching `h-run.sh`, which also explained the absence of any startup log.
 
+The v0.3.3 package uses `chatgptminer-0.3.3` consistently for the archive base
+name, archive root, manifest name, and HiveOS installation paths. This fixes the
+observed mismatch between `CUSTOM_MINER` and the extracted directory.
+
 Hardware validation must cover at least one GPU from each generation, mixed
 multi-GPU selection, insufficient VRAM, forced pool disconnect, invalid share,
 TLS failure, SIGINT/SIGTERM during work, and a sustained mining run. Hashrate,
