@@ -28,7 +28,7 @@ Startup and backend output is written to
 `/var/log/miner/custom/chatgptminer.log`. When that directory cannot be
 created, the wrapper falls back to `/tmp/chatgptminer.log`.
 
-Use `chatgptminer-0.3.7` as the HiveOS **Custom Miner name**. The archive is
+Use `chatgptminer-0.3.8` as the HiveOS **Custom Miner name**. The archive is
 flat: `h-run.sh`, `h-config.sh`, the backend, and the manifest are at its root.
 HiveOS extracts them directly into `/hive/miners/custom`, which is the path
 used by its `miner` screen session.
@@ -40,6 +40,9 @@ prevents `h-config.sh` from saving flight-sheet settings.
 `h-config.sh` implements the HiveOS sourced-hook contract (`miner_ver`,
 `miner_api_port`, and `miner_config_gen`). The original rgminer standalone
 generator is retained as `h-config-rgminer.sh` and is called by the hook.
+`miner_ver` intentionally returns an empty value because the archive is loaded
+from `CUSTOM_INSTALL_URL`; a version value makes HiveOS look for a nonexistent
+`hive-miners-custom-<version>` APT package.
 
 When HiveOS invokes `h-run.sh` without first exporting the flight-sheet
 variables, the wrapper loads `/hive-config/rig.conf` and

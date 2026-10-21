@@ -8,7 +8,7 @@ fi
 
 project_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source_archive="$1"
-version="0.3.7"
+version="0.3.8"
 package_name="chatgptminer-${version}"
 output="$project_dir/dist/${package_name}.tar.gz"
 stage="$(mktemp -d)"

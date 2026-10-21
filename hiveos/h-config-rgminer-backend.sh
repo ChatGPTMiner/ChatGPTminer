@@ -4,7 +4,9 @@ CHATGPTMINER_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 MINER_LOG_BASENAME="${CUSTOM_LOG_BASENAME:-/var/log/miner/custom/chatgptminer}"
 
 miner_ver() {
-  printf '%s\n' "${CUSTOM_VERSION:-0.3.7}"
+  # A non-empty value makes HiveOS try to install an APT package named
+  # hive-miners-custom-<version>. This miner is supplied by CUSTOM_INSTALL_URL.
+  :
 }
 
 miner_api_port() {

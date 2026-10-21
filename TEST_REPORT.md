@@ -79,12 +79,17 @@ standalone rgminer generator at that path, so `miner_export_params` failed on
 missing `miner_ver`/`miner_api_port` before sourcing `h-run.sh`.
 
 The packaged v0.3.7 hooks were extracted into a clean directory and exercised
-with the recorded HiveOS fixture. `miner_ver` returned `0.3.7`,
-`miner_api_port` returned `9200`, `miner_config_gen` produced the expected
+with the recorded HiveOS fixture. `miner_api_port` returned `9200`,
+`miner_config_gen` produced the expected
 wallet, worker, and pool settings, and the wrapper ran both the user and 2%
 developer phases through the mock backend. The tar checksum and shell syntax
 checks passed. This validates the HiveOS hook contract without claiming CUDA
 or live-pool validation in the cloud container.
+
+The v0.3.8 hook returns an empty `miner_ver`. The real HiveOS `miner-run`
+interprets a non-empty value as an APT package suffix and attempted to install
+the nonexistent package `hive-miners-custom-0.3.7`, preventing startup. The
+empty value keeps installation on the Custom Miner URL path.
 
 Hardware validation must cover at least one GPU from each generation, mixed
 multi-GPU selection, insufficient VRAM, forced pool disconnect, invalid share,
